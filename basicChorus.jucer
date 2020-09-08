@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="VUIcw8" name="basicChorus" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="1" displaySplashScreen="1" companyName="The Audio Programmer"
-              companyWebsite="www.theaudioprogrammer.com" companyEmail="info@theaudioprogrammer.com">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" companyName="The Audio Programmer"
+              companyWebsite="www.theaudioprogrammer.com" companyEmail="info@theaudioprogrammer.com"
+              jucerFormatVersion="1">
   <MAINGROUP id="SwuG6j" name="basicChorus">
     <GROUP id="{C236FD0A-0B69-4C6F-4923-8129B77E8DFA}" name="Source">
       <FILE id="siCPNg" name="PluginProcessor.cpp" compile="1" resource="0"

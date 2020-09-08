@@ -15,9 +15,9 @@ BasicChorusAudioProcessor::BasicChorusAudioProcessor()
      : AudioProcessor (BusesProperties()
                      #if ! JucePlugin_IsMidiEffect
                       #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  AudioChannelSet::stereo(), true)
+                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
                       #endif
-                       .withOutput ("Output", AudioChannelSet::stereo(), true)
+                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ), apvts (*this, nullptr, "Parameters", createParameters())
 #endif
@@ -39,7 +39,7 @@ BasicChorusAudioProcessor::~BasicChorusAudioProcessor()
 }
 
 //==============================================================================
-const String BasicChorusAudioProcessor::getName() const
+const juce::String BasicChorusAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
@@ -91,26 +91,24 @@ void BasicChorusAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String BasicChorusAudioProcessor::getProgramName (int index)
+const juce::String BasicChorusAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void BasicChorusAudioProcessor::changeProgramName (int index, const String& newName)
+void BasicChorusAudioProcessor::changeProgramName (int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
 void BasicChorusAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    dsp::ProcessSpec spec;
+    juce::dsp::ProcessSpec spec;
     spec.maximumBlockSize = samplesPerBlock;
     spec.sampleRate = sampleRate;
-    //spec.numChannels = getTotalNumInputChannels();
     
     chorus.prepare (spec);
     chorus.reset();
-    isInit.store (true);
 }
 
 void BasicChorusAudioProcessor::releaseResources()
@@ -143,21 +141,17 @@ bool BasicChorusAudioProcessor::isBusesLayoutSupported (const BusesLayout& layou
 }
 #endif
 
-void BasicChorusAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void BasicChorusAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    if (! isInit.load())
-        return;
-    
-    ScopedNoDenormals noDenormals;
+    juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    dsp::AudioBlock<float> sampleBlock (buffer);
-    
-    chorus.process (dsp::ProcessContextReplacing<float> (sampleBlock));
+    juce::dsp::AudioBlock<float> sampleBlock (buffer);
+    chorus.process (juce::dsp::ProcessContextReplacing<float> (sampleBlock));
 }
 
 //==============================================================================
@@ -166,29 +160,29 @@ bool BasicChorusAudioProcessor::hasEditor() const
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* BasicChorusAudioProcessor::createEditor()
+juce::AudioProcessorEditor* BasicChorusAudioProcessor::createEditor()
 {
     return new BasicChorusAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void BasicChorusAudioProcessor::getStateInformation (MemoryBlock& destData)
+void BasicChorusAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    ValueTree copyState = apvts.copyState();
-    std::unique_ptr<XmlElement> xml = copyState.createXml();
+    juce::ValueTree copyState = apvts.copyState();
+    std::unique_ptr<juce::XmlElement> xml = copyState.createXml();
     copyXmlToBinary (*xml.get(), destData);
 }
 
 void BasicChorusAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-    std::unique_ptr<XmlElement> xml = getXmlFromBinary (data, sizeInBytes);
-    ValueTree copyState = ValueTree::fromXml (*xml.get());
+    std::unique_ptr<juce::XmlElement> xml = getXmlFromBinary (data, sizeInBytes);
+    juce::ValueTree copyState = juce::ValueTree::fromXml (*xml.get());
     apvts.replaceState (copyState);
 }
 
 //==============================================================================
 // This creates new instances of the plugin..
-AudioProcessor* JUCE_CALLTYPE createPluginFilter()
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new BasicChorusAudioProcessor();
 }
@@ -198,7 +192,7 @@ void BasicChorusAudioProcessor::reset()
     chorus.reset();
 }
 
-void BasicChorusAudioProcessor::parameterChanged (const String& parameterID, float newValue)
+void BasicChorusAudioProcessor::parameterChanged (const juce::String& parameterID, float newValue)
 {
     if (parameterID == "RATE")
         chorus.setRate (newValue);
@@ -216,17 +210,17 @@ void BasicChorusAudioProcessor::parameterChanged (const String& parameterID, flo
         chorus.setMix (newValue);
 }
 
-AudioProcessorValueTreeState::ParameterLayout BasicChorusAudioProcessor::createParameters()
+juce::AudioProcessorValueTreeState::ParameterLayout BasicChorusAudioProcessor::createParameters()
 {
-    AudioProcessorValueTreeState::ParameterLayout params;
+    juce::AudioProcessorValueTreeState::ParameterLayout params;
     
-    using Range = NormalisableRange<float>;
+    using Range = juce::NormalisableRange<float>;
     
-    params.add (std::make_unique<AudioParameterInt>  ("RATE", "Rate", 0, 99, 0));
-    params.add (std::make_unique<AudioParameterFloat>("DEPTH", "Depth", Range { 0.0f, 1.0f, 0.01f }, 0.0f));
-    params.add (std::make_unique<AudioParameterInt>  ("CENTREDELAY", "Centre Delay", 1, 100, 1));
-    params.add (std::make_unique<AudioParameterFloat>("FEEDBACK", "Feedback", Range { -1.0f, 1.0f, 0.01f }, 0.0f));
-    params.add (std::make_unique<AudioParameterFloat>("MIX", "Mix", Range { 0.0f, 1.0f, 0.01f }, 0.0f));
+    params.add (std::make_unique<juce::AudioParameterInt>  ("RATE", "Rate", 0, 99, 0));
+    params.add (std::make_unique<juce::AudioParameterFloat>("DEPTH", "Depth", Range { 0.0f, 1.0f, 0.01f }, 0.0f));
+    params.add (std::make_unique<juce::AudioParameterInt>  ("CENTREDELAY", "Centre Delay", 1, 100, 1));
+    params.add (std::make_unique<juce::AudioParameterFloat>("FEEDBACK", "Feedback", Range { -1.0f, 1.0f, 0.01f }, 0.0f));
+    params.add (std::make_unique<juce::AudioParameterFloat>("MIX", "Mix", Range { 0.0f, 1.0f, 0.01f }, 0.0f));
     
     return params;
 }

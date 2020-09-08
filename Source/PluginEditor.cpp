@@ -13,48 +13,48 @@
 BasicChorusAudioProcessorEditor::BasicChorusAudioProcessorEditor (BasicChorusAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    getLookAndFeel().setColour (Slider::ColourIds::thumbColourId, Colour::fromRGB (242, 202, 16));
-    getLookAndFeel().setColour (Slider::ColourIds::rotarySliderFillColourId, Colour::fromRGB (115, 155, 184));
-    getLookAndFeel().setColour (Slider::ColourIds::rotarySliderOutlineColourId, Colour::fromRGB (44, 53, 57));
+    getLookAndFeel().setColour (juce::Slider::ColourIds::thumbColourId, juce::Colour::fromRGB (242, 202, 16));
+    getLookAndFeel().setColour (juce::Slider::ColourIds::rotarySliderFillColourId, juce::Colour::fromRGB (115, 155, 184));
+    getLookAndFeel().setColour (juce::Slider::ColourIds::rotarySliderOutlineColourId, juce::Colour::fromRGB (44, 53, 57));
     
-    using SliderStyle    = Slider::SliderStyle;
-    using Attachment     = SliderParameterAttachment;
+    using SliderStyle    = juce::Slider::SliderStyle;
+    using Attachment     = juce::SliderParameterAttachment;
     const auto boxWidth  = 35;
     const auto boxHeight = 15;
     
     rateSlider.setSliderStyle (SliderStyle::RotaryVerticalDrag);
-    rateSlider.setTextBoxStyle (Slider::TextBoxBelow, true, boxWidth, boxHeight);
+    rateSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, boxWidth, boxHeight);
     addAndMakeVisible (rateSlider);
     
-    depthSlider.setSliderStyle (Slider::SliderStyle::RotaryVerticalDrag);
-    depthSlider.setTextBoxStyle (Slider::TextBoxBelow, true, boxWidth, boxHeight);
+    depthSlider.setSliderStyle (juce::Slider::SliderStyle::RotaryVerticalDrag);
+    depthSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, boxWidth, boxHeight);
     addAndMakeVisible (depthSlider);
     
     centreDelaySlider.setSliderStyle (SliderStyle::RotaryVerticalDrag);
-    centreDelaySlider.setTextBoxStyle (Slider::TextBoxBelow, true, boxWidth, boxHeight);
+    centreDelaySlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, boxWidth, boxHeight);
     addAndMakeVisible (centreDelaySlider);
     
     feedbackSlider.setSliderStyle (SliderStyle::RotaryVerticalDrag);
-    feedbackSlider.setTextBoxStyle (Slider::TextBoxBelow, true, boxWidth, boxHeight);
+    feedbackSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, boxWidth, boxHeight);
     addAndMakeVisible (feedbackSlider);
     
     mixSlider.setSliderStyle (juce::Slider::SliderStyle::RotaryVerticalDrag);
     mixSlider.setTextBoxStyle (juce::Slider::TextBoxBelow, true, boxWidth, boxHeight);
     addAndMakeVisible (mixSlider);
     
-    rateLabel.setJustificationType (Justification::centred);
+    rateLabel.setJustificationType (juce::Justification::centred);
     addAndMakeVisible (rateLabel);
-    depthLabel.setJustificationType (Justification::centred);
+    depthLabel.setJustificationType (juce::Justification::centred);
     addAndMakeVisible (depthLabel);
-    delayLabel.setJustificationType (Justification::centred);
+    delayLabel.setJustificationType (juce::Justification::centred);
     addAndMakeVisible (delayLabel);
-    feedbackLabel.setJustificationType (Justification::centred);
+    feedbackLabel.setJustificationType (juce::Justification::centred);
     addAndMakeVisible (feedbackLabel);
-    mixLabel.setJustificationType (Justification::centred);
+    mixLabel.setJustificationType (juce::Justification::centred);
     addAndMakeVisible (mixLabel);
     
     pluginTitle.setFont (currentFont.boldened().withHeight (60.0f));
-    pluginTitle.setColour (Label::ColourIds::textColourId, Colours::white);
+    pluginTitle.setColour (juce::Label::ColourIds::textColourId, juce::Colours::white);
     addAndMakeVisible (pluginTitle);
     
     auto& apvts = audioProcessor.apvts;

@@ -12,14 +12,14 @@
 #include "PluginProcessor.h"
 #include "Assets.h"
 
-class TapImage : public ImageComponent
+class TapImage : public juce::ImageComponent
 {
 public:
     TapImage()
     {
-        tapImage = ImageCache::getFromMemory (Assets::Lockup_3_Curves_png, Assets::Lockup_3_Curves_pngSize);
+        tapImage = juce::ImageCache::getFromMemory (Assets::Lockup_3_Curves_png, Assets::Lockup_3_Curves_pngSize);
         jassert (tapImage.isValid());
-        setImage (tapImage, RectanglePlacement::stretchToFit);
+        setImage (tapImage, juce::RectanglePlacement::stretchToFit);
         addAndMakeVisible (websiteButton);
     }
     
@@ -29,8 +29,8 @@ public:
     }
     
 private:
-    Image tapImage;
-    HyperlinkButton websiteButton { "", URL ("https://theaudioprogrammer.com") };
+    juce::Image tapImage;
+    juce::HyperlinkButton websiteButton { "", juce::URL ("https://theaudioprogrammer.com") };
 };
 
 //==============================================================================
@@ -48,20 +48,20 @@ public:
 
 private:
     
-    Slider rateSlider;
-    Slider depthSlider;
-    Slider centreDelaySlider;
-    Slider feedbackSlider;
-    Slider mixSlider;
+    juce::Slider rateSlider;
+    juce::Slider depthSlider;
+    juce::Slider centreDelaySlider;
+    juce:: Slider feedbackSlider;
+    juce::Slider mixSlider;
     
-    Label rateLabel     { "Rate", "Rate" };
-    Label depthLabel    { "Depth", "Depth" };
-    Label delayLabel    { "Delay" , "Delay" };
-    Label feedbackLabel { "Feedback", "Feedback" };
-    Label mixLabel      { "Mix", "Mix" };
-    Label pluginTitle   { "Plug-in Title", "Chorus" };
+    juce::Label rateLabel     { "Rate", "Rate" };
+    juce::Label depthLabel    { "Depth", "Depth" };
+    juce::Label delayLabel    { "Delay" , "Delay" };
+    juce::Label feedbackLabel { "Feedback", "Feedback" };
+    juce::Label mixLabel      { "Mix", "Mix" };
+    juce::Label pluginTitle   { "Plug-in Title", "Chorus" };
     
-    using Attachment = std::unique_ptr<SliderParameterAttachment>;
+    using Attachment = std::unique_ptr<juce::SliderParameterAttachment>;
     
     Attachment rateSliderAttachment;
     Attachment depthSliderAttachment;
@@ -70,7 +70,7 @@ private:
     Attachment mixSliderAttachment;
     
     TapImage tapImage;
-    Font currentFont;
+    juce::Font currentFont;
         
     BasicChorusAudioProcessor& audioProcessor;
 
